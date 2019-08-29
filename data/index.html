@@ -1,0 +1,74 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        function SetStatusText(text) {
+            document.getElementById("status").style.display = "block";
+            document.getElementById("status").innerText = text;
+        }
+
+        function storeSettings() {
+            var sta_name = document.getElementById("sta_name").value;
+            var sta_passwd = document.getElementById("sta_passwd").value;
+            var slack_path = document.getElementById("slack_path").value;
+            var slack_message = document.getElementById("slack_message").value;
+            var url = `/store?sta_name=${sta_name}&sta_passwd=${sta_passwd}&slack_path=${slack_path}&slack_message=${slack_message}`;
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                SetStatusText("Success saved");
+            }
+            xhr.open("get", url);
+            xhr.send();
+            SetStatusText("Saving...");
+        }
+
+        function onReady() {
+            document.getElementById("status").innerHTML = "Loading...";
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                SetStatusText(this.responseText);
+                try {
+                    var json = JSON.parse(this.responseText);
+                    document.getElementById("sta_name").value = json.sta_name;
+                    document.getElementById("sta_passwd").value = json.sta_passwd;
+                    document.getElementById("slack_path").value = json.slack_path;
+                    document.getElementById("slack_message").value = json.slack_message;
+
+                    document.getElementById("status").style.display = "none";
+                    document.getElementById("form").style.display = "block";
+                } catch (e) {
+                    document.getElementById("error").innerText = e;
+                }
+            }
+            xhr.open("get", "/load", true);
+
+            xhr.send();
+        }
+
+        document.addEventListener('DOMContentLoaded', onReady);
+    </script>
+</head>
+
+<body>
+    <div id="form" style="display: block">
+        <h1>Maintenance</h1>
+        <h5>WiFi AccessPoint Name</h5>
+        <input id="sta_name" type="text" />
+        <h5>WiFi AccessPoint Password</h5>
+        <input id="sta_passwd" type="text" />
+        <h5>Slack path</h5>
+        <input id="slack_path" type="text" />
+        <h5>Slack message</h5>
+        <input id="slack_message" type="text" />
+        <div>
+            <button onclick="storeSettings()">Store settings</button>
+        </div>
+    </div>
+    <div id="status">
+    </div>
+    <div id="error">
+    </div>
+</body>
+
+</html>

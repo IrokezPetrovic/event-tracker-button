@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/irokezpetrovic/.platformio/penv/bin:/Users/irokezpetrovic/.platformio/penv:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Volumes/WORK/distr/apache-maven-3.3.3/bin:/Volumes/WORK/distr/android-sdk/platform-tools",
+        "PLATFORMIO_CALLER": "vscode"
+    }
+}
